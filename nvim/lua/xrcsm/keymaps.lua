@@ -1,4 +1,4 @@
--- lua/config/keymaps.lua
+-- lua/xrcsm/keymaps.lua
 
 local M = {}
 

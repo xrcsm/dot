@@ -1,4 +1,4 @@
--- lua/config/autocmds.lua
+-- lua/xrcsm/autocmds.lua
 
 local M = {}
 
