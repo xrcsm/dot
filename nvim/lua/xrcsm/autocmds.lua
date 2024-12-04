@@ -1,4 +1,4 @@
--- lua/config/atuocmds.lua
+-- lua/config/autocmds.lua
 
 local M = {}
 
@@ -13,14 +13,12 @@ M.setup = function()
     pattern = '*',
   })
 
-  -- Turn off tmux status line when exiting Neovim
   vim.api.nvim_create_autocmd("VimEnter", {
     callback = function()
       os.execute("tmux set status off")
     end,
   })
 
-  -- Turn on tmux status line when exiting Neovim
   vim.api.nvim_create_autocmd("VimLeave", {
     callback = function()
       os.execute("tmux set status on")

@@ -46,8 +46,9 @@ for _, file in ipairs(plugin_files) do
   end
 end
 
-require('lazy').setup(plugin_specs)
+require 'lazy'.setup(plugin_specs)
 
-require('config.options').setup()
-require('config.keymaps').setup()
-require('config.autocmds').setup()
+require 'xrcsm.options'.setup()
+require 'xrcsm.keymaps'.setup()
+require 'xrcsm.autocmds'.setup()
+require 'xrcsm.theme'.load()

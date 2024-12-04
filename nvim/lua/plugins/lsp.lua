@@ -59,7 +59,7 @@ return {
       require('mason').setup()
 
       require('mason-lspconfig').setup {
-        ensure_installed = { 'lua_ls', 'clangd', 'pyright', 'ts_ls' },
+        ensure_installed = { 'lua_ls', 'clangd', 'pyright', 'ts_ls', 'svelte', 'rust_analyzer' },
       }
 
       local lsp_signature_opts = {
@@ -68,6 +68,8 @@ return {
           current = "← ", -- when the hint is on the same line
           below = "↖ " -- when the hint is on the line below the current line
         },
+        hint_inline = function() return true end,
+        
         bind = true,
         handler_opts = {
           border = "rounded"
@@ -75,35 +77,27 @@ return {
       }
       require('lsp_signature').setup(lsp_signature_opts)
 
+      local keymaps = require 'xrcsm.keymaps'
+
       local on_attach = function(client, bufnr)
-        local nmap = function(keys, func, desc)
-          vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
+        keymaps.on_attach(bufnr)
+
+        if client.name == "svelte" then
+          vim.api.nvim_create_autocmd("BufWritePost", {
+            pattern = { "*.js", "*.ts" },
+            group = vim.api.nvim_create_augroup("svelte_ondidchangetsorjsfile", { clear = true }),
+            callback = function(ctx)
+              client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
+            end,
+          })
         end
 
         vim.lsp.inlay_hint.enable()
-
-        -- LSP key mappings
-        nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-        nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-        nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
-        nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-        nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
-        nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-        nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
-        nmap('<leader><space>', function() vim.lsp.buf.format { async = true } end, '[F]ormat [F]ile')
-        nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-        nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
-        nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
-        nmap('<leader>ww', vim.diagnostic.get, '')
-        nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
-        nmap('<leader>wl', function()
-          print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-        end, '[W]orkspace [L]ist Folders')
       end
 
       local lspconfig = require('lspconfig')
 
-      -- Lua Language Server
+      -- Lua (lua_ls)
       lspconfig.lua_ls.setup {
         on_attach = on_attach,
         settings = {
@@ -114,17 +108,18 @@ return {
         },
       }
 
-      -- Clangd (C/C++)
+      -- C/C++ (clangd)
       lspconfig.clangd.setup {
         on_attach = on_attach,
         cmd = { "/usr/bin/clangd", "--header-insertion=never", "--clang-tidy", "--background-index" },
       }
 
-      -- Python (Pyright)
+      -- Python (pyright)
       lspconfig.pyright.setup {
         on_attach = on_attach,
       }
 
+      -- Rust (rust-analyzer)
       lspconfig.rust_analyzer.setup {
         on_attach = on_attach,
         settings = {
@@ -142,8 +137,13 @@ return {
 
       }
 
-      -- JavaScript/TypeScript (ts_ls)
+      -- JS/TS (ts_ls)
       lspconfig.ts_ls.setup {
+        on_attach = on_attach,
+      }
+
+      -- Svelte (svelte-language-server)
+      lspconfig.svelte.setup {
         on_attach = on_attach,
       }
     end,
