@@ -111,7 +111,7 @@ return {
       -- C/C++ (clangd)
       lspconfig.clangd.setup {
         on_attach = on_attach,
-        cmd = { "/usr/bin/clangd", "--header-insertion=never", "--clang-tidy", "--background-index" },
+        cmd = { "clangd", "--header-insertion=never", "--clang-tidy", "--background-index" },
       }
 
       -- Python (pyright)

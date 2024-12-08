@@ -1,7 +1,7 @@
 -- lua/plugins/lualine.lua
 
 
-local function git_remote_repo_name()
+local function git_repo_name()
   local remote_name = io.popen("git remote show 2>/dev/null"):read("*l")
   if not remote_name or remote_name == "" then return nil end
 
@@ -12,7 +12,7 @@ local function git_remote_repo_name()
 end
 
 
-local function buffer_commit_hash()
+local function git_commit_hash()
   local untracked = 'untracked'
   local file_path = vim.fn.expand("%:p")
   if file_path == "" then
@@ -98,8 +98,12 @@ return {
         tabline = {
           lualine_a = { { function() return get_tmux_session_name() end, color = { bg = '#0d1117', fg = '#fff' } }, { 'FugitiveHead', fmt = function(
               branch_name)
-            return branch_name == '' and 'no branch' or
-                git_remote_repo_name() .. '@' .. branch_name .. ' (' .. buffer_commit_hash() .. ')'
+            local remote = git_repo_name()
+            if remote then
+              return remote .. '@' .. branch_name .. ' (' .. git_commit_hash() .. ')'
+            else
+              return 'no remote'
+            end
           end, color = { bg = '#0d1117', fg = '#fff' } } },
           lualine_b = { { 'tabs',
             tab_max_length = 40,
