@@ -69,7 +69,7 @@ return {
           below = "↖ " -- when the hint is on the line below the current line
         },
         hint_inline = function() return true end,
-        
+
         bind = true,
         handler_opts = {
           border = "rounded"
@@ -119,6 +119,10 @@ return {
         on_attach = on_attach,
       }
 
+      -- lspconfig.black.setup {
+      --   on_attach = on_attach,
+      -- }
+
       -- Rust (rust-analyzer)
       lspconfig.rust_analyzer.setup {
         on_attach = on_attach,
@@ -137,8 +141,23 @@ return {
 
       }
 
+      -- Get the ts_plugin_path
+      local mason_registry = require('mason-registry')
+      local vue_language_server_path = mason_registry.get_package('vue-language-server'):get_install_path() ..
+      '/node_modules/@vue/language-server'
+
       -- JS/TS (ts_ls)
       lspconfig.ts_ls.setup {
+        init_options = {
+          plugins = {
+            {
+              name = '@vue/typescript-plugin',
+              location = vue_language_server_path,
+              languages = { 'vue' },
+            },
+          },
+        },
+        filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
         on_attach = on_attach,
       }
 
@@ -146,6 +165,29 @@ return {
       lspconfig.svelte.setup {
         on_attach = on_attach,
       }
+
+      -- Vue (vue-language-server)
+      lspconfig.volar.setup {
+        on_attach = on_attach,
+      }
+
+      -- Go (gopls)
+      lspconfig.gopls.setup {
+        on_attach = on_attach,
+      }
+
+      -- JSON (jsonls)
+      lspconfig.jsonls.setup {
+        on_attach = on_attach,
+      }
     end,
   },
+  {
+    "stevearc/conform.nvim",
+    opts = {
+      formatters_by_ft = {
+        python = { "black" },
+      },
+    },
+  }
 }

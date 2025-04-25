@@ -96,7 +96,7 @@ return {
           lualine_z = {},
         },
         tabline = {
-          lualine_a = { { function() return get_tmux_session_name() end, color = { bg = '#0d1117', fg = '#fff' } }, { 'FugitiveHead', fmt = function(
+          lualine_a = { { 'FugitiveHead', fmt = function(
               branch_name)
             local remote = git_repo_name()
             if remote then
@@ -104,7 +104,7 @@ return {
             else
               return 'no remote'
             end
-          end, color = { bg = '#0d1117', fg = '#fff' } } },
+          end, color = { bg = '#0d1117', fg = '#fff' } }, },
           lualine_b = { { 'tabs',
             tab_max_length = 40,
             max_length = vim.o.columns / 3,

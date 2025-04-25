@@ -11,6 +11,26 @@ local nmap = function(keys, func, desc, bufnr)
   vim.keymap.set('n', keys, func, opts)
 end
 
+function insert_include_guard()
+  local filename = vim.fn.expand("%:t:r")
+  if filename == "" then
+    print("No file name detected.")
+    return
+  end
+
+  local guard = string.upper(filename) .. "_HPP"
+  local lines = {
+    "#ifndef " .. guard,
+    "#define " .. guard,
+    "",
+    "",
+    "#endif // " .. guard
+  }
+
+  vim.api.nvim_buf_set_lines(0, 0, 0, false, lines)
+  vim.api.nvim_win_set_cursor(0, { 4, 0 })
+end
+
 M.setup = function()
   -- General keymaps
   vim.g.mapleader = ' '
@@ -73,7 +93,9 @@ M.on_attach = function(bufnr)
   nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation', bufnr)
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame', bufnr)
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', bufnr)
-  nmap('<leader><space>', function() vim.lsp.buf.format { async = true } end, '[F]ormat [F]ile', bufnr)
+  nmap('<leader><space>', function()
+    require("conform").format({ async = true })
+  end, '[F]ormat [F]ile', bufnr)
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration', bufnr)
   nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition', bufnr)
   nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder', bufnr)
@@ -89,6 +111,9 @@ M.on_attach = function(bufnr)
   nmap(']d', vim.diagnostic.goto_next, 'Go to next diagnostic message')
   nmap('<leader>e', vim.diagnostic.open_float, 'Open floating diagnostic message')
   nmap('<leader>q', telescope.diagnostics, 'Open diagnostics list')
+
+  -- C++ Include Guards
+  nmap("<leader>ig", "<cmd>lua insert_include_guard()<CR>", 'Insert include guard')
 end
 
 return M
