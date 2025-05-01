@@ -180,6 +180,11 @@ return {
       lspconfig.jsonls.setup {
         on_attach = on_attach,
       }
+
+      -- TOML (taplo)
+      lspconfig.taplo.setup {
+        on_attach = on_attach,
+      }
     end,
   },
   {
