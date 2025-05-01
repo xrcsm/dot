@@ -80,6 +80,10 @@ M.setup = function()
 
   -- Source Lua script
   nmap('<leader><C-s>', '<Cmd>so<CR><C-l>', 'Source Lua script')
+
+  vim.keymap.set('v', '<leader>q', [[c"<C-r>""<Esc>]], {
+    desc = '[Q]uote selected text',
+  })
 end
 
 M.on_attach = function(bufnr)
