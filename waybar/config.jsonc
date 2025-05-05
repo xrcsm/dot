@@ -1,0 +1,54 @@
+// -*- mode: jsonc -*-
+{
+	"name": "bar0",
+	"layer": "top",
+	"position": "top",
+	"mode": "dock",
+	"reload_style_on_change": true,
+	"height": 38,
+	"spacing": 10,
+	"modules-left": [
+		"hyprland/workspaces"
+	],
+	"modules-center": [
+		"hyprland/window"
+	],
+	"modules-right": [
+    "mpd",
+		"tray",
+		// "hyprland/language",
+		"clock"
+	],
+  "tray": {
+    "icon-size": 20,
+    "spacing": 10
+  },
+  "hyprland/language": {
+    "format": "{short}"
+  },
+  "hyprland/window": { },
+  "clock": {
+    "interval":1,
+    "format": "{:%H:%M:%S}",
+    "tooltip-format": "<small>{calendar}</small>",
+    "calendar": {
+      "mode"          : "year",
+      "mode-mon-col"  : 3,
+      "weeks-pos"     : "right",
+      "on-scroll"     : 1,
+      "format": {
+        "months":     "<span color='#ffead3'><b>{}</b></span>",
+        "days":       "<span color='#ecc6d9'><b>{}</b></span>",
+        "weeks":      "<span color='#99ffdd'><b>w{}</b></span>",
+        "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+        "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+      }
+    },
+    "actions":  {
+      "on-click-right": "mode",
+      "on-click-middle": "shift_reset",
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down"
+    }
+  }
+}

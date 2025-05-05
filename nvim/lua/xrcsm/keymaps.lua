@@ -84,6 +84,8 @@ M.setup = function()
   vim.keymap.set('v', '<leader>q', [[c"<C-r>""<Esc>]], {
     desc = '[Q]uote selected text',
   })
+
+  nmap('<leader>cb', '<cmd>!cmkr build --parallel 16<CR>', 'Run [c]mkr [b]uild')
 end
 
 M.on_attach = function(bufnr)

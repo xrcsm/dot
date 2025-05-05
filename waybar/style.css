@@ -1,0 +1,48 @@
+.modules-left {
+  /*font-family: "Iosevka Aile";*/
+  font-size: 1.0rem;
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.5);
+  border-radius: 1.5rem;
+  padding: 0rem 1rem;
+  margin-bottom: 0.3rem;
+}
+
+.modules-center {
+  /*font-family: "Iosevka Aile";*/
+  font-size: 1.0rem;
+  background-color: rgba(0,0,0,0.5);
+  border-radius: 1.5rem;
+  padding: 0rem 1rem;
+  margin-bottom: 0.3rem;
+}
+
+.modules-right {
+  /*font-family: "Iosevka Aile";*/
+  font-size: 1.0rem;
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.5);
+  border-radius: 1.5rem;
+  padding: 0rem 1rem;
+  margin-bottom: 0.3rem;
+}
+
+#workspaces {
+  background-color: rgba(0,0,0,0.5);
+  border-radius: 1.5rem;
+}
+
+#workspaces .active {
+  background-color: rgba(255,255,255,0.1);
+  font-weight: bold;
+}
+
+window#waybar {
+  background-color: rgba(0,0,0,0.1);
+  border: none;
+}
+
+window#waybar.empty {
+  background-color: rgba(0,0,0,0);
+  border: none;
+}
