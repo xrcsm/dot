@@ -32,7 +32,7 @@ end
 
 local function current_lsp_client()
   local filetype = vim.bo.filetype
-  local clients = vim.lsp.get_active_clients({ bufnr = vim.api.nvim_get_current_buf() })
+  local clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
   local client_names = {}
   for _, client in ipairs(clients) do
     table.insert(client_names, client.name)
